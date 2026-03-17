@@ -17,4 +17,29 @@ export async function getUnits(type) {
     console.error("API Error (getUnits):", error);
     return [];
   }
+} 
+
+// get conversions
+export async function getConversion(from, to) {
+  try {
+    const res = await fetch(
+      `${BASE_URL}/conversions?from=${from}&to=${to}` //http://localhost:3000/conversion?from=''&to=''
+    );
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+
+    const data = await res.json(); //  array
+
+    if (!data.length) {
+      throw new Error("No conversion found");
+    }
+
+    return data[0]; 
+
+  } catch (error) {
+    console.error("API Error (getConversion):", error);
+    throw error; 
+  }
 }

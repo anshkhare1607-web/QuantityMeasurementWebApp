@@ -1,84 +1,131 @@
-<!-- UC-JS-02  Fetch Units By Types
+<!-- UC-JS-04  Fetch Conversion Record
 
 author : Developer
-version : 3.0 -->
-
+version : 4.0 -->
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Quantity Converter</title>
-    <!-- Bootstrap CSS -->
+    <title>Quantity Measurement App</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
-<body class="bg-light">
+<body>
 
-    <div class="container mt-4">
+    <!-- HERO -->
+    <section class="hero text-center">
+        <h1 class="fw-bold">Quantity Measurement App</h1>
+        <p class="text-muted">
+            Convert, compare and calculate units easily.
+        </p>
+    </section>
 
-        <!-- error -->
-        <div id="errorBanner" class="alert alert-danger d-none"></div>
-
-        <!-- cards -->
-        <div class="mb-3">
-            <div class="btn-group">
-                <button class="btn btn-outline-primary type-card" data-type="length">Length</button>
-                <button class="btn btn-outline-primary type-card" data-type="weight">Weight</button>
-                <button class="btn btn-outline-primary type-card" data-type="temperature">Temperature</button>
-                <button class="btn btn-outline-primary type-card" data-type="volume">Volume</button>
-            </div>
-        </div>
-
-        <!-- action buttons -->
-        <div class="mb-3">
-            <div class="btn-group">
-                <button class="btn btn-outline-success action-btn" data-action="conversion">Conversion</button>
-                <button class="btn btn-outline-success action-btn" data-action="comparison">Comparison</button>
-                <button class="btn btn-outline-success action-btn" data-action="arithmetic">Arithmetic</button>
-            </div>
-        </div>
-
-        <!-- inputs -->
-        <div class="row g-3 align-items-center mb-3">
+    <!-- FEATURES -->
+    <section class="container my-4">
+        <div class="row g-3 justify-content-center">
 
             <div class="col-md-3">
-                <input type="number" id="fromValue" class="form-control" placeholder="Enter value">
+                <div class="card feature-card length-card text-center">
+                    <div class="icon">📏</div>
+                    <h5>Length</h5>
+                    <p>Kilometre, Metre, Centimetre</p>
+                </div>
             </div>
 
             <div class="col-md-3">
-                <select id="fromUnit" class="form-select"></select>
+                <div class="card feature-card weight-card text-center">
+                    <div class="icon">⚖️</div>
+                    <h5>Weight</h5>
+                    <p>ton, Kilogram, gram</p>
+                </div>
             </div>
 
             <div class="col-md-3">
-                <select id="toUnit" class="form-select"></select>
+                <div class="card feature-card temp-card text-center">
+                    <div class="icon">🌡️</div>
+                    <h5>Temperature</h5>
+                    <p>Celsius, Fahrenheit, Kelvin</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card feature-card volume-card text-center">
+                    <div class="icon">🧪</div>
+                    <h5>Volume</h5>
+                    <p>Liters, Milliliter, Gallons</p>
+                </div>
             </div>
 
         </div>
+    </section>
 
-        <!-- operator -->
-        <div id="operatorRow" class="mb-3">
-            <select id="operator" class="form-select w-25">
-                <option value="+">+</option>
-                <option value="-">-</option>
-                <option value="*">*</option>
-                <option value="/">/</option>
-            </select>
+    <!-- MAIN CARD -->
+    <section class="container d-flex justify-content-center">
+        <div class="converter-card p-4">
+
+            <!-- ACTION -->
+            <div class="text-center mb-3">
+                <button class="action-btn active" data-action="conversion">Conversion</button>
+                <button class="action-btn" data-action="comparison">Comparison</button>
+                <button class="action-btn" data-action="arithmetic">Arithmetic</button>
+            </div>
+
+            <hr>
+
+            <!-- INPUT -->
+            <div class="row g-3 align-items-center">
+
+                <div class="col-md-5">
+                    <label>FROM</label>
+                    <input type="number" id="fromValue" class="form-control" placeholder="Enter value">
+                    <select id="fromUnit" class="form-select mt-2"></select>
+                </div>
+
+                <div class="col-md-2 text-center">
+                    <span class="arrow">→</span>
+                </div>
+
+                <div class="col-md-5">
+                    <label>TO</label>
+                    <input type="number" id="toValue" class="form-control" disabled>
+                    <select id="toUnit" class="form-select mt-2"></select>
+                </div>
+
+            </div>
+
+            <!-- OPERATOR -->
+            <div id="operatorRow" class="text-center mt-3">
+                <select id="operator" class="form-select w-25 mx-auto">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                </select>
+            </div>
+
+            <!-- RESULT -->
+            <div class="result-box mt-4 text-center">
+                <p id="resultText">Result will appear here</p>
+            </div>
+
+            <!-- ERROR -->
+            <div id="errorBanner" class="alert alert-danger d-none mt-3"></div>
+
+            <!-- HISTORY -->
+            <div class="mt-4">
+                <h6>History</h6>
+                <div id="history"></div>
+            </div>
+
         </div>
+    </section>
 
-        <!-- history -->
-        <div class="card">
-            <div class="card-header">History</div>
-            <div id="history" class="card-body"></div>
-        </div>
-
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Your Script -->
     <script type="module" src="../script/script.js"></script>
 
 </body>
+
 </html>
