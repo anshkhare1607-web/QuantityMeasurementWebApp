@@ -1,5 +1,5 @@
 // base url
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:3000"; 
 
 // get units by type
 export async function getUnits(type) {
@@ -41,5 +41,30 @@ export async function getConversion(from, to) {
   } catch (error) {
     console.error("API Error (getConversion):", error);
     throw error; 
+  }
+}
+
+// saving history
+export async function saveHistory(record) {
+  try {
+    const res = await fetch(`${BASE_URL}/history`, { // http://localhost:3000/history
+      method: "POST", // posting data
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(record) // converting to JSON format
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+
+    return await res.json(); // returns saved object with id
+
+  } catch (error) {
+    console.error("API Error (saveHistory):", error);
+
+    // not throwing error as not that much critical 
+    return null;
   }
 }

@@ -1,5 +1,5 @@
 // import api
-import { getUnits } from "./api.js";
+import { getUnits, saveHistory } from "./api.js";
 
 // global state
 const state = {
@@ -14,12 +14,21 @@ const state = {
 
 // dom load
 document.addEventListener("DOMContentLoaded", async () => {
+
   try {
     attachEventListeners();
     setActiveDefaults();
     toggleOperators(false);
 
     await loadUnits("length");
+    
+    await saveHistory({ // temporary testing function
+      type: "length",
+      action: "conversion",
+      expression: "1 km → 1000 m",
+      result: 1000,
+      timestamp: new Date().toISOString()
+    });
 
   } catch (error) {
     console.error(error);
