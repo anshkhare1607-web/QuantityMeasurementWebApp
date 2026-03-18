@@ -1,5 +1,5 @@
 // import api
-import { getUnits, saveHistory } from "./api.js";
+import { getUnits, saveHistory, getHistory, getConversion } from "./api.js";
 
 // global state
 const state = {
@@ -14,21 +14,23 @@ const state = {
 
 // dom load
 document.addEventListener("DOMContentLoaded", async () => {
-
   try {
     attachEventListeners();
     setActiveDefaults();
     toggleOperators(false);
 
     await loadUnits("length");
-    
-    await saveHistory({ // temporary testing function
-      type: "length",
-      action: "conversion",
-      expression: "1 km → 1000 m",
-      result: 1000,
-      timestamp: new Date().toISOString()
-    });
+    await loadHistory();
+
+    // TEMPORARY TEST
+    const testRecord = {
+      expression: "100 km = 100000 m (TEST)",
+      timestamp: Date.now()
+    };
+
+    console.log("Running temporary save test...");
+    await saveHistory(testRecord);
+    await loadHistory(); // Reload to see if it shows up in the UI instantly
 
   } catch (error) {
     console.error(error);
@@ -82,6 +84,9 @@ function attachEventListeners() {
 
       await loadUnits(state.type);
     });
+    document.getElementById("fromValue").addEventListener("change", performCalculation);
+    document.getElementById("fromUnit").addEventListener("change", performCalculation);
+    document.getElementById("toUnit").addEventListener("change", performCalculation);
   });
 }
 
@@ -104,4 +109,34 @@ function showError(message) {
 
   errorBanner.textContent = message;
   errorBanner.classList.remove("d-none");
+}
+
+// load history
+async function loadHistory() {
+  try {
+    const history = await getHistory();
+
+    console.log("History data:", history); // 👈 ADD THIS
+
+    const container = document.getElementById("history");
+
+    container.innerHTML = "";
+
+    if (!history.length) {
+      container.innerHTML = "<p>No history yet.</p>";
+      return;
+    }
+
+    history.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "history-item";
+
+      div.textContent = item.expression;
+
+      container.appendChild(div);
+    });
+
+  } catch (error) {
+    console.error(error);
+  }
 }

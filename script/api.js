@@ -47,24 +47,44 @@ export async function getConversion(from, to) {
 // saving history
 export async function saveHistory(record) {
   try {
-    const res = await fetch(`${BASE_URL}/history`, { // http://localhost:3000/history
-      method: "POST", // posting data
+    console.log("POSTING TO SERVER...");
+
+    const res = await fetch("http://localhost:3000/history", {
+      method: "POST",  // ✅ VERY IMPORTANT
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(record) // converting to JSON format
+      body: JSON.stringify(record)
     });
+
+    console.log("Response status:", res.status);
 
     if (!res.ok) {
       throw new Error(`HTTP ${res.status}`);
     }
 
-    return await res.json(); // returns saved object with id
+    const data = await res.json();
+    return data;
 
   } catch (error) {
-    console.error("API Error (saveHistory):", error);
-
-    // not throwing error as not that much critical 
+    console.error("SAVE ERROR:", error);
     return null;
+  }
+}
+
+// get history
+export async function getHistory() {
+  try {
+    const res = await fetch(`${BASE_URL}/history?_sort=timestamp&_order=desc`); // http://localhost:3000/history?_sort=timestamp&_order=desc
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+
+    return await res.json(); 
+
+  } catch (error) {
+    console.error("API Error (getHistory):", error);
+    return []; 
   }
 }
