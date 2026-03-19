@@ -23,8 +23,13 @@ body {
     transform: translateY(-5px);
     background: #00153e;
     color: white;
+}
 
-
+.feature-card.active {
+    transform: translateY(-5px);
+    background: #00153e;
+    color: white;
+    border-color: white;
 }
 
 .length-card:hover {
@@ -67,6 +72,8 @@ body {
     margin: 0 10px;
     font-weight: 500;
     color: #555;
+    border-radius: 10px;
+    padding: 6px 14px;
     transition: all 0.3 ease;
 }
 

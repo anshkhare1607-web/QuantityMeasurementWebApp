@@ -1,7 +1,7 @@
-<!--UC-JS-10  Populate Unit Dropdown
+<!--UC-JS-11  Set Active Button
 
 author : Developer
-version : 10.0 -->
+version : 11.0 -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,10 +68,10 @@ version : 10.0 -->
         <div class="converter-card p-4">
 
             <!-- ACTION -->
-            <div class="d-flex justify-content-center gap-3 mb-4">
-                <button id="tab-conversion" class="btn btn-primary active">Conversion</button>
-                <button id="tab-comparison" class="btn btn-light">Comparison</button>
-                <button id="tab-arithmetic" class="btn btn-light">Arithmetic</button>
+            <div class="d-flex justify-content-center gap-1 mb-4">
+                <button id="tab-conversion" class="action-btn active">Conversion</button>
+                <button id="tab-comparison" class="action-btn">Comparison</button>
+                <button id="tab-arithmetic" class="action-btn">Arithmetic</button>
             </div>
             <hr>
             <!-- INPUT -->
@@ -97,7 +97,7 @@ version : 10.0 -->
                 <select id="operatorSelect" class="form-select w-auto d-inline-block">
                     <option value="+">Addition (+)</option>
                     <option value="-">Subtraction (-)</option>
-                    <option value="*">Multiplication (×)</option> 
+                    <option value="*">Multiplication (×)</option>
                     <option value="/">Division (÷)</option>
                 </select>
             </div>

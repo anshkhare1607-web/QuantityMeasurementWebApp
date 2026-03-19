@@ -23,48 +23,36 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // event listeners
 function attachEventListeners() {
-  // Feature Cards (Length, Weight, etc.)
   const featureCards = document.querySelectorAll(".feature-card");
+  
   featureCards.forEach(card => {
     card.addEventListener("click", async () => {
-      document.querySelectorAll(".feature-card").forEach(c => c.classList.remove("active"));
-      card.classList.add("active");
-      state.type = card.querySelector("h5").textContent.toLowerCase();
+      setActive(document, card, ".feature-card");
+      
+      const typeText = card.querySelector("h5").textContent.trim().toLowerCase();
+      state.type = typeText;
+      
       await loadUnits(state.type);
     });
   });
 
-  // Action Tabs
   document.getElementById("tab-conversion").addEventListener("click", () => switchAction("conversion"));
   document.getElementById("tab-comparison").addEventListener("click", () => switchAction("comparison"));
   document.getElementById("tab-arithmetic").addEventListener("click", () => switchAction("arithmetic"));
 
-  // Main Submit Button
   document.getElementById("submitBtn").addEventListener("click", handleAction);
 }
 
-// Action Tab Switcher (Unlocks/Locks inputs)
 
-// Action Tab Switcher (Unlocks/Locks inputs & toggles operators)
+// Action Tab Switcher
 function switchAction(newAction) {
   state.action = newAction;
 
-  // Update Tab Styling
-  ["conversion", "comparison", "arithmetic"].forEach(act => {
-    const tab = document.getElementById(`tab-${act}`);
-    if (act === newAction) {
-      tab.classList.replace("btn-light", "btn-primary");
-      tab.classList.add("active");
-    } else {
-      tab.classList.replace("btn-primary", "btn-light");
-      tab.classList.remove("active");
-    }
-  });
+  const clickedTab = document.getElementById(`tab-${newAction}`);
+  setActive(document, clickedTab, ".action-btn");
 
-  // Show operators ONLY for arithmetic
   toggleOperators(newAction === "arithmetic");
 
-  // Toggle 'toValue' readOnly state
   const toValueInput = document.getElementById("toValue");
   if (newAction === "conversion") {
     toValueInput.readOnly = true;
@@ -76,10 +64,10 @@ function switchAction(newAction) {
     toValueInput.placeholder = "Enter second value";
   }
 
-  // Clear UI
   document.getElementById("resultText").textContent = "Result will appear here";
   document.getElementById("errorBanner").classList.add("d-none");
 }
+
 
 
 // Main Router (Routes Submit button to the right function)
@@ -126,7 +114,7 @@ function populateDropdown(selectEl, units) {
 async function loadUnits(type) {
   try {
     const units = await getUnits(type);
-    
+
     const fromDropdown = document.getElementById("fromUnit");
     const toDropdown = document.getElementById("toUnit");
 
@@ -345,4 +333,14 @@ function toggleOperators(show) {
   if (!operatorRow) return;
 
   operatorRow.style.display = show ? "block" : "none";
+}
+
+//Set Active Button
+function setActive(parentEl, clickedEl, childSelector) {
+  if (!parentEl || !clickedEl) return;
+  
+  const elements = parentEl.querySelectorAll(childSelector);
+  elements.forEach(el => el.classList.remove("active"));
+  
+  clickedEl.classList.add("active");
 }

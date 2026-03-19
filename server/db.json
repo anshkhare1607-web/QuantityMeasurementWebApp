@@ -413,6 +413,11 @@
       "expression": "1 km = 1000 m",
       "timestamp": 1773930815514,
       "id": 35
+    },
+    {
+      "expression": "1 ton + 2 ton = 3 ton",
+      "timestamp": 1773939640595,
+      "id": 36
     }
   ]
 }
