@@ -52,7 +52,7 @@ function switchAction(newAction) {
   // Update Tab Styling
   ["conversion", "comparison", "arithmetic"].forEach(act => {
     const tab = document.getElementById(`tab-${act}`);
-    if(act === newAction) {
+    if (act === newAction) {
       tab.classList.replace("btn-light", "btn-primary");
       tab.classList.add("active");
     } else {
@@ -87,11 +87,11 @@ async function handleAction() {
   document.getElementById("errorBanner").classList.add("d-none"); // Clear old errors
 
   if (state.action === "conversion") {
-    await performConversion();
+    await performConversion(); // conversion
   } else if (state.action === "comparison") {
-    await performComparison();
+    await performComparison(); // comparison
   } else if (state.action === "arithmetic") {
-    showError("Arithmetic coming soon!");
+    await performArithmeticAction(); // arithmetic
   }
 }
 
@@ -162,7 +162,7 @@ function applyConversion(value, convObj, fromUnit, toUnit) {
 // UC-JS-08: Compare Values Logic
 function compareValues(v1, u1, v2, u2, base1, base2) {
   if (isNaN(v1) || isNaN(v2)) return "Invalid values — cannot compare";
-  
+
   if (u1 === u2) {
     if (v1 > v2) return `${v1} ${u1} is GREATER than ${v2} ${u2}`;
     if (v1 < v2) return `${v1} ${u1} is LESS than ${v2} ${u2}`;
@@ -174,6 +174,24 @@ function compareValues(v1, u1, v2, u2, base1, base2) {
   return `${v1} ${u1} is EQUAL to ${v2} ${u2}`;
 }
 
+// Arithmetic Logic
+function performArithmetic(v1, v2normalised, op) {
+  if (isNaN(v1) || isNaN(v2normalised)) throw new Error("Invalid values");
+
+  switch (op) {
+    case "+":
+      return parseFloat((v1 + v2normalised).toFixed(6));
+    case "-":
+      return parseFloat((v1 - v2normalised).toFixed(6));
+    case "*":
+      return parseFloat((v1 * v2normalised).toFixed(6));
+    case "/":
+      if (v2normalised === 0) throw new Error("Cannot divide by zero");
+      return parseFloat((v1 / v2normalised).toFixed(6));
+    default:
+      throw new Error("Unknown operator");
+  }
+}
 // Perform Conversion (Action 1)
 async function performConversion() {
   const fromValStr = document.getElementById("fromValue").value;
@@ -208,7 +226,7 @@ async function performConversion() {
 // Perform Comparison (Action 2)
 async function performComparison() {
   const fromValStr = document.getElementById("fromValue").value;
-  const toValStr = document.getElementById("toValue").value; 
+  const toValStr = document.getElementById("toValue").value;
   const fromUnit = document.getElementById("fromUnit").value;
   const toUnit = document.getElementById("toUnit").value;
 
@@ -229,8 +247,8 @@ async function performComparison() {
       // Convert v2 into v1's unit to get a common base
       const conversion = await getConversion(toUnit, fromUnit);
       const base2 = applyConversion(v2, conversion, toUnit, fromUnit);
-      const base1 = v1; 
-      
+      const base1 = v1;
+
       resultMessage = compareValues(v1, fromUnit, v2, toUnit, base1, base2);
     }
 
@@ -241,6 +259,47 @@ async function performComparison() {
 
   } catch (error) {
     showError(error.message || "Comparison failed.");
+  }
+}
+
+// Perform Arithmetic 
+async function performArithmeticAction() {
+  const fromValStr = document.getElementById("fromValue").value;
+  const toValStr = document.getElementById("toValue").value;
+  const fromUnit = document.getElementById("fromUnit").value;
+  const toUnit = document.getElementById("toUnit").value;
+
+  // Replace "operatorSelect" with the actual ID of your operator dropdown/input in HTML
+  const operatorElement = document.getElementById("operatorSelect");
+  const operator = operatorElement ? operatorElement.value : state.operator;
+
+  if (!fromValStr || !toValStr) {
+    showError("Enter both values for arithmetic");
+    return;
+  }
+
+  const v1 = parseFloat(fromValStr);
+  const v2 = parseFloat(toValStr);
+
+  try {
+    let v2normalised = v2;
+
+    // Convert v2 into v1's unit if they are different
+    if (fromUnit !== toUnit) {
+      const conversion = await getConversion(toUnit, fromUnit);
+      v2normalised = applyConversion(v2, conversion, toUnit, fromUnit);
+    }
+
+    const result = performArithmetic(v1, v2normalised, operator);
+    const expression = `${v1} ${fromUnit} ${operator} ${v2} ${toUnit} = ${result} ${fromUnit}`;
+
+    document.getElementById("resultText").textContent = expression;
+
+    await saveHistory({ expression: expression, timestamp: Date.now() });
+    await loadHistory();
+
+  } catch (error) {
+    showError(error.message || "Arithmetic failed.");
   }
 }
 

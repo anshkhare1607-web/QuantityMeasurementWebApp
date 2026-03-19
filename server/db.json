@@ -363,6 +363,41 @@
       "expression": "10 km is GREATER than 100 m",
       "timestamp": 1773926290291,
       "id": 25
+    },
+    {
+      "expression": "1 km + 1 km = 2 km",
+      "timestamp": 1773929382899,
+      "id": 26
+    },
+    {
+      "expression": "1 km + 1 m = 1.001 km",
+      "timestamp": 1773929389882,
+      "id": 27
+    },
+    {
+      "expression": "1 km / 1 m = 1000 km",
+      "timestamp": 1773929397523,
+      "id": 28
+    },
+    {
+      "expression": "1 km * 1 m = 0.001 km",
+      "timestamp": 1773929416905,
+      "id": 29
+    },
+    {
+      "expression": "1 km * 1 km = 1 km",
+      "timestamp": 1773929688051,
+      "id": 30
+    },
+    {
+      "expression": "1 km - 1 km = 0 km",
+      "timestamp": 1773930180778,
+      "id": 31
+    },
+    {
+      "expression": "1 m - 1 km = -999 m",
+      "timestamp": 1773930189102,
+      "id": 32
     }
   ]
 }
