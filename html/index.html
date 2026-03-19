@@ -1,7 +1,7 @@
-<!--UC-JS-07  Apply Conversion
+<!--UC-JS-08  Compare Two Values
 
 author : Developer
-version : 7.0 -->
+version : 8.0 -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,33 +68,27 @@ version : 7.0 -->
         <div class="converter-card p-4">
 
             <!-- ACTION -->
-            <div class="text-center mb-3">
-                <button class="action-btn active" data-action="conversion">Conversion</button>
-                <button class="action-btn" data-action="comparison">Comparison</button>
-                <button class="action-btn" data-action="arithmetic">Arithmetic</button>
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <button id="tab-conversion" class="btn btn-primary active">Conversion</button>
+                <button id="tab-comparison" class="btn btn-light">Comparison</button>
+                <button id="tab-arithmetic" class="btn btn-light">Arithmetic</button>
             </div>
-
             <hr>
-
             <!-- INPUT -->
-            <div class="row g-3 align-items-center">
-
-                <div class="col-md-5">
+            <div class="row align-items-center mb-4">
+                <div class="col">
                     <label>FROM</label>
-                    <input type="number" id="fromValue" class="form-control" placeholder="Enter value">
-                    <select id="fromUnit" class="form-select mt-2"></select>
+                    <input type="number" id="fromValue" class="form-control mb-2" placeholder="Enter value">
+                    <select id="fromUnit" class="form-select"></select>
                 </div>
-
-                <div class="col-md-2 text-center">
-                    <span class="arrow">→</span>
+                <div class="col-auto">
+                    <i class="bi bi-arrow-right">→</i>
                 </div>
-
-                <div class="col-md-5">
+                <div class="col">
                     <label>TO</label>
-                    <input type="number" id="toValue" class="form-control" disabled>
-                    <select id="toUnit" class="form-select mt-2"></select>
+                    <input type="number" id="toValue" class="form-control mb-2" placeholder="Result" readonly>
+                    <select id="toUnit" class="form-select"></select>
                 </div>
-
             </div>
 
             <!-- OPERATOR -->

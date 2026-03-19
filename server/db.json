@@ -323,6 +323,46 @@
       "expression": "-1 km = -1000 m",
       "timestamp": 1773924243560,
       "id": 17
+    },
+    {
+      "expression": "1 km is EQUAL to 1 km",
+      "timestamp": 1773925112201,
+      "id": 18
+    },
+    {
+      "expression": "1 km is GREATER than 1 m",
+      "timestamp": 1773925119461,
+      "id": 19
+    },
+    {
+      "expression": "5 km = 5 km",
+      "timestamp": 1773925483401,
+      "id": 20
+    },
+    {
+      "expression": "5 km is GREATER than 5 m",
+      "timestamp": 1773925500100,
+      "id": 21
+    },
+    {
+      "expression": "5 km is GREATER than 5 m",
+      "timestamp": 1773925500108,
+      "id": 22
+    },
+    {
+      "expression": "5 km is GREATER than 5 m",
+      "timestamp": 1773925500116,
+      "id": 23
+    },
+    {
+      "expression": "1 km is GREATER than 1 cm",
+      "timestamp": 1773925525401,
+      "id": 24
+    },
+    {
+      "expression": "10 km is GREATER than 100 m",
+      "timestamp": 1773926290291,
+      "id": 25
     }
   ]
 }

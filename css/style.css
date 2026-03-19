@@ -67,13 +67,30 @@ body {
     margin: 0 10px;
     font-weight: 500;
     color: #555;
+    transition: all 0.3 ease;
 }
 
 .action-btn.active {
-    background: rgb(2, 2, 85);
+    background: #011c54;
     color: white;
     padding: 6px 14px;
-    border-radius: 8px;
+    border-radius: 10px;
+}
+
+/* Action Tabs Hover Effect */
+#tab-conversion, 
+#tab-comparison, 
+#tab-arithmetic {
+  transition: all 0.3s ease-in-out;
+}
+
+#tab-conversion:hover, 
+#tab-comparison:hover, 
+#tab-arithmetic:hover {
+  transform: translateY(-3px); /* Lifts the button up slightly */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Adds a soft drop shadow */
+  background:#01256c ;
+  color: white;
 }
 
 /* ARROW */
@@ -107,11 +124,12 @@ body {
 }
 
 #submitBtn {
-    background-color: #6366f1;
-    transition: all 0.3 ease;
+    background-color: #032e84;
+    transition: all 0.3s ease-in-out;
 }
 
 #submitBtn:hover {
     background: #01256c;
     border-color: #25265c;
+    transform: translateY(-5px);
 }
