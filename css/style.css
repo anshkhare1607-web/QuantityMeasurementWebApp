@@ -106,11 +106,12 @@ body {
 }
 
 /* RESULT */
-.result-box {
-    background: linear-gradient(to right, #6366f1, #4f46e5);
-    color: white;
+.result-panel {
+    background: white;
+    color: rgb(4, 0, 28);
+    border: none; 
+    border-bottom: 3px solid #00153e; 
     padding: 12px;
-    border-radius: 10px;
     font-weight: 500;
 }
 
@@ -169,3 +170,10 @@ select.form-select:focus {
   background-color: #fbfafa;
 }
 
+.result-panel {
+  transition: background-color 0.3s ease;
+}
+
+.result-panel.highlight {
+  background-color: #b571f9 ; /* A slightly darker purple flash */
+}

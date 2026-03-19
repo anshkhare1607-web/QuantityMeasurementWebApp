@@ -203,6 +203,7 @@ function performArithmetic(v1, v2normalised, op) {
   }
 }
 // Perform Conversion (Action 1)
+// Perform Conversion (Action 1)
 async function performConversion() {
   const fromValStr = document.getElementById("fromValue").value;
   const fromUnit = document.getElementById("fromUnit").value;
@@ -222,9 +223,9 @@ async function performConversion() {
     }
 
     document.getElementById("toValue").value = result;
-    const expression = `${fromVal} ${fromUnit} = ${result} ${toUnit}`;
-    document.getElementById("resultText").textContent = expression;
+    showResult(result, toUnit); 
 
+    const expression = `${fromVal} ${fromUnit} = ${result} ${toUnit}`;
     await saveHistory({ expression: expression, timestamp: Date.now() });
     await loadHistory();
 
@@ -236,7 +237,7 @@ async function performConversion() {
 // Perform Comparison (Action 2)
 async function performComparison() {
   const fromValStr = document.getElementById("fromValue").value;
-  const toValStr = document.getElementById("toValue").value;
+  const toValStr = document.getElementById("toValue").value; 
   const fromUnit = document.getElementById("fromUnit").value;
   const toUnit = document.getElementById("toUnit").value;
 
@@ -254,15 +255,13 @@ async function performComparison() {
     if (fromUnit === toUnit) {
       resultMessage = compareValues(v1, fromUnit, v2, toUnit, v1, v2);
     } else {
-      // Convert v2 into v1's unit to get a common base
       const conversion = await getConversion(toUnit, fromUnit);
       const base2 = applyConversion(v2, conversion, toUnit, fromUnit);
-      const base1 = v1;
-
+      const base1 = v1; 
+      
       resultMessage = compareValues(v1, fromUnit, v2, toUnit, base1, base2);
     }
-
-    document.getElementById("resultText").textContent = resultMessage;
+    showResult(resultMessage, "");
 
     await saveHistory({ expression: resultMessage, timestamp: Date.now() });
     await loadHistory();
@@ -272,14 +271,13 @@ async function performComparison() {
   }
 }
 
-// Perform Arithmetic 
+// Perform Arithmetic (Action 3)
 async function performArithmeticAction() {
   const fromValStr = document.getElementById("fromValue").value;
-  const toValStr = document.getElementById("toValue").value;
+  const toValStr = document.getElementById("toValue").value; 
   const fromUnit = document.getElementById("fromUnit").value;
   const toUnit = document.getElementById("toUnit").value;
-
-  // Replace "operatorSelect" with the actual ID of your operator dropdown/input in HTML
+  
   const operatorElement = document.getElementById("operatorSelect");
   const operator = operatorElement ? operatorElement.value : state.operator;
 
@@ -294,17 +292,15 @@ async function performArithmeticAction() {
   try {
     let v2normalised = v2;
 
-    // Convert v2 into v1's unit if they are different
     if (fromUnit !== toUnit) {
       const conversion = await getConversion(toUnit, fromUnit);
       v2normalised = applyConversion(v2, conversion, toUnit, fromUnit);
     }
 
     const result = performArithmetic(v1, v2normalised, operator);
+    showResult(result, fromUnit);
+
     const expression = `${v1} ${fromUnit} ${operator} ${v2} ${toUnit} = ${result} ${fromUnit}`;
-
-    document.getElementById("resultText").textContent = expression;
-
     await saveHistory({ expression: expression, timestamp: Date.now() });
     await loadHistory();
 
@@ -343,4 +339,30 @@ function setActive(parentEl, clickedEl, childSelector) {
   elements.forEach(el => el.classList.remove("active"));
   
   clickedEl.classList.add("active");
+}
+
+// Show Result
+function showResult(value, unitSymbol) {
+  const valueEl = document.querySelector("#result-value");
+  const unitEl = document.querySelector("#result-unit");
+
+  // Exception Flow
+  if (value === null || value === undefined) {
+    if (valueEl) valueEl.textContent = "—";
+    if (unitEl) unitEl.textContent = "";
+    return;
+  }
+
+  // Main & Alternate Flow
+  if (valueEl) valueEl.textContent = value;
+  if (unitEl) unitEl.textContent = unitSymbol || "";
+
+  // Highlight Animation
+  const resultPanel = valueEl.parentElement;
+  if (resultPanel) {
+    resultPanel.classList.add("highlight");
+    setTimeout(() => {
+      resultPanel.classList.remove("highlight");
+    }, 1500);
+  }
 }

@@ -1,7 +1,7 @@
-<!--UC-JS-11  Set Active Button
+<!--UC-JS-12  Show Result
 
 author : Developer
-version : 11.0 -->
+version : 12.0 -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -107,8 +107,11 @@ version : 11.0 -->
                 <button id="submitBtn" class="btn btn-success px-4">Submit</button>
             </div>
             <!-- RESULT -->
-            <div class="result-box mt-4 text-center">
-                <p id="resultText">Result will appear here</p>
+            <div class="result-panel text-center mt-4 p-3">
+                <h4>
+                    <span id="result-value">Result will appear here</span>
+                    <span id="result-unit" class="ms-1"></span> 
+                </h4>
             </div>
 
             <!-- ERROR -->
