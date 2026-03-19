@@ -398,6 +398,21 @@
       "expression": "1 m - 1 km = -999 m",
       "timestamp": 1773930189102,
       "id": 32
+    },
+    {
+      "expression": "1 cm = 0.00001 km",
+      "timestamp": 1773930763845,
+      "id": 33
+    },
+    {
+      "expression": "1  = 1 ",
+      "timestamp": 1773930805832,
+      "id": 34
+    },
+    {
+      "expression": "1 km = 1000 m",
+      "timestamp": 1773930815514,
+      "id": 35
     }
   ]
 }

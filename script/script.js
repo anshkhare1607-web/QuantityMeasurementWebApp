@@ -95,29 +95,49 @@ async function handleAction() {
   }
 }
 
-// load units
+// asking user ot select a unit
+function populateDropdown(selectEl, units) {
+  if (!selectEl) {
+    console.warn("Dropdown element not found.");
+    return;
+  }
+
+  selectEl.innerHTML = "";
+
+  const defaultOption = document.createElement("option");
+  defaultOption.textContent = "-- Select Unit --";
+  defaultOption.value = "";
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  selectEl.appendChild(defaultOption);
+
+  if (!units || units.length === 0) {
+    return;
+  }
+
+  units.forEach(u => {
+    const opt = document.createElement("option");
+    opt.value = u.symbol;
+    opt.textContent = `${u.label} (${u.symbol})`;
+    selectEl.appendChild(opt);
+  });
+}
+
 async function loadUnits(type) {
   try {
     const units = await getUnits(type);
+    
     const fromDropdown = document.getElementById("fromUnit");
     const toDropdown = document.getElementById("toUnit");
 
-    fromDropdown.innerHTML = "";
-    toDropdown.innerHTML = "";
+    populateDropdown(fromDropdown, units);
+    populateDropdown(toDropdown, units);
 
-    units.forEach(unit => {
-      const option1 = document.createElement("option");
-      option1.value = unit.symbol;
-      option1.textContent = `${unit.label} (${unit.symbol})`;
-      const option2 = option1.cloneNode(true);
-
-      fromDropdown.appendChild(option1);
-      toDropdown.appendChild(option2);
-    });
   } catch (error) {
     showError("Failed to load units");
   }
 }
+
 
 // load history
 async function loadHistory() {
@@ -141,6 +161,8 @@ async function loadHistory() {
     console.error(error);
   }
 }
+
+
 
 // UC-JS-07: Apply Conversion Logic
 function applyConversion(value, convObj, fromUnit, toUnit) {

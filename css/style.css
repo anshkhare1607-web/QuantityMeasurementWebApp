@@ -133,3 +133,32 @@ body {
     border-color: #25265c;
     transform: translateY(-5px);
 }
+
+
+/* Premium Dropdown Styling */
+select.form-select {
+  appearance: none; 
+  background-color: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 12px 40px 12px 16px; 
+  font-size: 1rem;
+  font-weight: 500;
+  color: #626262;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+}
+
+select.form-select:hover {
+  border-color: #01326d;
+  background-color: #ffffff;
+}
+
+select.form-select:focus {
+  outline: none;
+  border-color: #011c54; 
+  box-shadow: 0 0 0 4px rgba(1, 28, 84, 0.15); 
+  background-color: #fbfafa;
+}
+
