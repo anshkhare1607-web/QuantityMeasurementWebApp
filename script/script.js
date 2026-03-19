@@ -22,14 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadUnits("length");
     await loadHistory();
 
-    // TEMPORARY TEST
-    const testRecord = {
-      expression: "100 km = 100000 m (TEST)",
-      timestamp: Date.now()
-    };
-
     console.log("Running temporary save test...");
-    await saveHistory(testRecord);
     await loadHistory(); // Reload to see if it shows up in the UI instantly
 
   } catch (error) {
@@ -73,21 +66,23 @@ async function loadUnits(type) {
 
 // event listners
 function attachEventListeners() {
-  const typeCards = document.querySelectorAll(".type-card");
+  const featureCards = document.querySelectorAll(".feature-card");
 
-  typeCards.forEach(card => {
+  featureCards.forEach(card => {
     card.addEventListener("click", async () => {
-      document.querySelectorAll(".type-card").forEach(c => c.classList.remove("active"));
+      document.querySelectorAll(".feature-card").forEach(c => c.classList.remove("active"));
       card.classList.add("active");
 
-      state.type = card.dataset.type;
+      let typeText = card.querySelector("h5").textContent.toLowerCase();
+      state.type = typeText;
 
       await loadUnits(state.type);
     });
-    document.getElementById("fromValue").addEventListener("change", performCalculation);
-    document.getElementById("fromUnit").addEventListener("change", performCalculation);
-    document.getElementById("toUnit").addEventListener("change", performCalculation);
   });
+
+  document.getElementById("submitBtn").addEventListener("click", performCalculation);
+  document.getElementById("fromUnit").addEventListener("change", performCalculation);
+  document.getElementById("toUnit").addEventListener("change", performCalculation);
 }
 
 // ui helpers
@@ -138,5 +133,65 @@ async function loadHistory() {
 
   } catch (error) {
     console.error(error);
+  }
+}
+
+// 1. applyConversion function
+function applyConversion(value, convObj, fromUnit, toUnit) {
+  if (isNaN(value)) throw new Error("Invalid number");
+  if (fromUnit === toUnit) return value;
+
+  try {
+    if (convObj.factor !== null) {
+      return parseFloat((value * convObj.factor).toFixed(6));
+    } else {
+      const expr = convObj.formula.replace("x", value);
+      return parseFloat(eval(expr).toFixed(6));
+    }
+  } catch (error) {
+    throw new Error("Bad formula");
+  }
+}
+
+// 2. performCalculation function
+async function performCalculation() {
+  const fromValStr = document.getElementById("fromValue").value;
+  const fromUnit = document.getElementById("fromUnit").value;
+  const toUnit = document.getElementById("toUnit").value;
+
+  if (!fromValStr) {
+    document.getElementById("resultText").textContent = "Result will appear here";
+    document.getElementById("toValue").value = "";
+    return;
+  }
+
+  const fromVal = parseFloat(fromValStr);
+
+  try {
+    let result;
+
+    // Check alternate flow first to avoid unnecessary API calls
+    if (fromUnit === toUnit) {
+      result = fromVal;
+    } else {
+      const conversion = await getConversion(fromUnit, toUnit);
+      result = applyConversion(fromVal, conversion, fromUnit, toUnit);
+    }
+
+    document.getElementById("toValue").value = result;
+
+    const expression = `${fromVal} ${fromUnit} = ${result} ${toUnit}`;
+    document.getElementById("resultText").textContent = expression;
+
+    await saveHistory({ 
+      expression: expression,
+      timestamp: Date.now()
+    });
+
+    await loadHistory();
+
+  } catch (error) {
+    console.error(error);
+    showError(error.message || "Conversion failed.");
   }
 }

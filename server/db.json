@@ -245,9 +245,84 @@
   ],
   "history": [
     {
-      "expression": "100 km = 100000 m (TEST)",
-      "timestamp": 1773842091938,
+      "expression": "1 km = 1 km",
+      "timestamp": 1773922857746,
       "id": 1
+    },
+    {
+      "expression": "10 km = 10 km",
+      "timestamp": 1773922862134,
+      "id": 2
+    },
+    {
+      "expression": "1 km = 1 km",
+      "timestamp": 1773922871246,
+      "id": 3
+    },
+    {
+      "expression": "6 km = 6000 m",
+      "timestamp": 1773922877012,
+      "id": 4
+    },
+    {
+      "expression": "65 km = 65000 m",
+      "timestamp": 1773922877096,
+      "id": 5
+    },
+    {
+      "expression": "653 km = 653000 m",
+      "timestamp": 1773922878037,
+      "id": 6
+    },
+    {
+      "expression": "6532 km = 6532000 m",
+      "timestamp": 1773922878154,
+      "id": 7
+    },
+    {
+      "expression": "65326 km = 65326000 m",
+      "timestamp": 1773922878445,
+      "id": 8
+    },
+    {
+      "expression": "1000 km = 1000 km",
+      "timestamp": 1773923205104,
+      "id": 10
+    },
+    {
+      "expression": "0 C = 273.15 K",
+      "timestamp": 1773924145029,
+      "id": 11
+    },
+    {
+      "expression": "0 C = 273.15 K",
+      "timestamp": 1773924149183,
+      "id": 12
+    },
+    {
+      "expression": "0 C = 273.15 K",
+      "timestamp": 1773924151636,
+      "id": 13
+    },
+    {
+      "expression": "0 C = 0 C",
+      "timestamp": 1773924154121,
+      "id": 14
+    },
+    {
+      "expression": "10 C = 50 F",
+      "timestamp": 1773924169339,
+      "id": 15
+    },
+    {
+      "expression": "10 km = 10000 m",
+      "timestamp": 1773924236434,
+      "id": 16
+    },
+    {
+      "expression": "-1 km = -1000 m",
+      "timestamp": 1773924243560,
+      "id": 17
     }
   ]
 }
