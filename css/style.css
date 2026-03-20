@@ -123,12 +123,11 @@ body {
     margin-bottom: 5px;
 }
 
-#history {
+#history-list {
+    
     max-height: 170px;
-    /* Adjust this number to make the block taller or shorter */
     overflow-y: auto;
     padding-right: 10px;
-    /* Adds a little breathing room next to the scrollbar */
 }
 
 #submitBtn {

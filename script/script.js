@@ -127,26 +127,37 @@ async function loadUnits(type) {
 }
 
 
-// load history
+// Render History List
+function renderHistory(records) {
+  const list = document.querySelector("#history-list");
+  if (!list) return;
+
+  // undefined as empty array
+  const safeRecords = records || [];
+  list.innerHTML = "";
+
+  // Empty state
+  if (!safeRecords.length) {
+    list.innerHTML = "<li class='list-group-item text-muted text-center'>No history yet.</li>";
+    return;
+  }
+
+  const reversedRecords = [...safeRecords].reverse(); 
+
+  reversedRecords.forEach(r => {
+    const li = document.createElement("li");
+    li.className = "list-group-item";
+    li.textContent = `${r.expression}  =  ${r.result || ""}  (${new Date(r.timestamp).toLocaleString()})`;
+    list.prepend(li); // for storing entry at the top
+  });
+}
+
 async function loadHistory() {
   try {
     const history = await getHistory();
-    const container = document.getElementById("history");
-    container.innerHTML = "";
-
-    if (!history.length) {
-      container.innerHTML = "<p>No history yet.</p>";
-      return;
-    }
-
-    history.forEach(item => {
-      const div = document.createElement("div");
-      div.className = "history-item";
-      div.textContent = item.expression;
-      container.appendChild(div);
-    });
+    renderHistory(history);
   } catch (error) {
-    console.error(error);
+    console.error("Failed to load history:", error);
   }
 }
 
