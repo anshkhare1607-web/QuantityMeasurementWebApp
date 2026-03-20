@@ -1,7 +1,7 @@
-<!--UC-JS-14 : Render History List
+<!--UC-JS-15 : Handle Type Card Click
 
 author : Developer
-version : 14.0 -->
+version : 15.0 -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,10 +68,10 @@ version : 14.0 -->
         <div class="converter-card p-4">
 
             <!-- ACTION -->
-            <div class="d-flex justify-content-center gap-1 mb-4">
-                <button id="tab-conversion" class="action-btn active">Conversion</button>
-                <button id="tab-comparison" class="action-btn">Comparison</button>
-                <button id="tab-arithmetic" class="action-btn">Arithmetic</button>
+            <div class="d-flex justify-content-center gap-1 mb-4" id="actionSelector">
+                <button id="tab-conversion" class="action-btn active" data-action="conversion">Conversion</button>
+                <button id="tab-comparison" class="action-btn" data-action="comparison">Comparison</button>
+                <button id="tab-arithmetic" class="action-btn" data-action="arithmetic">Arithmetic</button>
             </div>
             <hr>
             <!-- INPUT -->

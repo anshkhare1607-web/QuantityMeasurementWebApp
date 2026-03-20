@@ -23,24 +23,68 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // event listeners
 function attachEventListeners() {
-  const featureCards = document.querySelectorAll(".feature-card");
-  
-  featureCards.forEach(card => {
+  // Grab all necessary DOM elements
+  const typeCards = document.querySelectorAll(".feature-card");
+  const actionButtons = document.querySelectorAll(".action-btn");
+  const fromInput = document.getElementById("fromValue");
+  const toInput = document.getElementById("toValue");
+  const fromSelect = document.getElementById("fromUnit");
+  const toSelect = document.getElementById("toUnit");
+  const submitBtn = document.getElementById("submitBtn");
+
+  typeCards.forEach(card => {
     card.addEventListener("click", async () => {
+      // Update state and set active card visually
+      state.type = card.querySelector("h5").textContent.trim().toLowerCase();
       setActive(document, card, ".feature-card");
-      
-      const typeText = card.querySelector("h5").textContent.trim().toLowerCase();
-      state.type = typeText;
-      
-      await loadUnits(state.type);
+
+      // Clear inputs and result
+      fromInput.value = "";
+      toInput.value = "";
+      showResult(null, "");
+
+      // Load and populate new units
+      try {
+        const units = await getUnits(state.type);
+        populateDropdown(fromSelect, units);
+        populateDropdown(toSelect, units);
+        state.fromUnit = "";
+        state.toUnit = "";
+      } catch (error) {
+        showError("Failed to load units for " + state.type);
+      }
     });
   });
 
-  document.getElementById("tab-conversion").addEventListener("click", () => switchAction("conversion"));
-  document.getElementById("tab-comparison").addEventListener("click", () => switchAction("comparison"));
-  document.getElementById("tab-arithmetic").addEventListener("click", () => switchAction("arithmetic"));
+  actionButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      // Update state and set active tab visually
+      state.action = btn.dataset.action;
+      setActive(document, btn, ".action-btn");
+      
+      // Toggle operator row visibility
+      toggleOperators(state.action === "arithmetic");
+      
+      // Reset result panel
+      showResult(null, "");
 
-  document.getElementById("submitBtn").addEventListener("click", handleAction);
+      // Handle the secondary input field based on the mode
+      if (state.action === "conversion") {
+        toInput.readOnly = true;
+        toInput.value = "";
+        toInput.placeholder = "Result";
+      } else {
+        toInput.readOnly = false;
+        toInput.value = "";
+        toInput.placeholder = "Enter second value";
+      }
+    });
+  });
+
+  // --- Main Action Trigger ---
+  if (submitBtn) {
+    submitBtn.addEventListener("click", handleAction);
+  }
 }
 
 
@@ -70,7 +114,7 @@ function switchAction(newAction) {
 
 
 
-// Main Router (Routes Submit button to the right function)
+// Main Router 
 async function handleAction() {
   document.getElementById("errorBanner").classList.add("d-none"); // Clear old errors
 
@@ -163,7 +207,7 @@ async function loadHistory() {
 
 
 
-// UC-JS-07: Apply Conversion Logic
+// Apply Conversion Logic
 function applyConversion(value, convObj, fromUnit, toUnit) {
   if (isNaN(value)) throw new Error("Invalid number");
   if (fromUnit === toUnit) return value;
@@ -180,7 +224,7 @@ function applyConversion(value, convObj, fromUnit, toUnit) {
   }
 }
 
-// UC-JS-08: Compare Values Logic
+// Compare Values Logic
 function compareValues(v1, u1, v2, u2, base1, base2) {
   if (isNaN(v1) || isNaN(v2)) return "Invalid values — cannot compare";
 
@@ -213,8 +257,7 @@ function performArithmetic(v1, v2normalised, op) {
       throw new Error("Unknown operator");
   }
 }
-// Perform Conversion (Action 1)
-// Perform Conversion (Action 1)
+// Perform Conversion 
 async function performConversion() {
   const fromValStr = document.getElementById("fromValue").value;
   const fromUnit = document.getElementById("fromUnit").value;
@@ -245,7 +288,7 @@ async function performConversion() {
   }
 }
 
-// Perform Comparison (Action 2)
+// Perform Comparison 
 async function performComparison() {
   const fromValStr = document.getElementById("fromValue").value;
   const toValStr = document.getElementById("toValue").value; 
@@ -282,7 +325,7 @@ async function performComparison() {
   }
 }
 
-// Perform Arithmetic (Action 3)
+// Perform Arithmetic 
 async function performArithmeticAction() {
   const fromValStr = document.getElementById("fromValue").value;
   const toValStr = document.getElementById("toValue").value; 
