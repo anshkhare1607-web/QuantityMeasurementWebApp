@@ -322,13 +322,18 @@ function showError(message) {
   errorBanner.classList.remove("d-none");
 }
 
-// UI Helper: Show or hide the operator row
+// Toggle Operator Row
 function toggleOperators(show) {
-  // Make sure your HTML has an element wrapping the operators with id="operatorRow"
-  const operatorRow = document.getElementById("operatorRow");
-  if (!operatorRow) return;
+  const operatorSelector = document.querySelector("#operator-selector");
 
-  operatorRow.style.display = show ? "block" : "none";
+  // Exception Flow
+  if (!operatorSelector) {
+    console.warn("Operator selector element not found.");
+    return;
+  }
+
+  // Main Flow
+  operatorSelector.style.display = show ? "flex" : "none";
 }
 
 //Set Active Button

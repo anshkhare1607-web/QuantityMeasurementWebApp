@@ -433,6 +433,11 @@
       "expression": "1 km = 1000 m",
       "timestamp": 1773941283929,
       "id": 39
+    },
+    {
+      "expression": "1 km * 2 km = 2 km",
+      "timestamp": 1773986819191,
+      "id": 40
     }
   ]
 }
